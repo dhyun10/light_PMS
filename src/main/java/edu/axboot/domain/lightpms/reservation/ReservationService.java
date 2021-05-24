@@ -2,9 +2,7 @@ package edu.axboot.domain.lightpms.reservation;
 
 import com.chequer.axboot.core.parameter.RequestParams;
 import com.querydsl.core.BooleanBuilder;
-import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Projections;
-import com.querydsl.core.types.dsl.NumberExpression;
 import edu.axboot.controllers.dto.*;
 import edu.axboot.domain.BaseService;
 import edu.axboot.domain.lightpms.guest.Guest;
@@ -42,7 +40,7 @@ public class ReservationService extends BaseService<Reservation, Long> {
     }
 
     @Transactional
-    public String saveUsingQueryDsl(ReservationRequestDto requestDto) {
+    public Long saveUsingQueryDsl(ReservationRequestDto requestDto) {
         Date today = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String rsvDate = sdf.format(today);
@@ -62,13 +60,12 @@ public class ReservationService extends BaseService<Reservation, Long> {
             requestDto.setGuestId(guestId);
         }
 
-        this.reservationRepository.save(requestDto.toEntity());
+        Long id = this.reservationRepository.save(requestDto.toEntity()).getId();
 
         List<ReservationMemo> memo = requestDto.getMemoList();
-
         memoService.saveUsingQueryDsl(memo, rsvNum);
 
-        return rsvNum;
+        return id;
     }
 
     public Long saveGuest(ReservationRequestDto requestDto) {

@@ -6,10 +6,8 @@ import com.chequer.axboot.core.controllers.BaseController;
 import com.chequer.axboot.core.parameter.RequestParams;
 import com.chequer.axboot.core.utils.DateUtils;
 import com.chequer.axboot.core.utils.ExcelUtils;
-import com.querydsl.core.Tuple;
 import com.wordnik.swagger.annotations.ApiOperation;
 import edu.axboot.controllers.dto.*;
-import edu.axboot.domain.lightpms.reservation.Reservation;
 import edu.axboot.domain.lightpms.reservation.ReservationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,11 +32,11 @@ public class ReservationController extends BaseController {
     @RequestMapping(method = RequestMethod.POST, produces = APPLICATION_JSON)
     @ResponseBody
     public Map<String, Object> save(@RequestBody ReservationRequestDto reservation) {
-        String rsvNum = reservationService.saveUsingQueryDsl(reservation);
+        Long id = reservationService.saveUsingQueryDsl(reservation);
 
         Map<String, Object> model = new HashMap<>();
         model.put("ApiStatus.SUCCESS", "success");
-        model.put("rsvNum", rsvNum);
+        model.put("id", id);
 
         return model;
     }

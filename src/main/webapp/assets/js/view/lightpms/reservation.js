@@ -1,5 +1,15 @@
 var fnObj = {};
 var ACTIONS = axboot.actionExtend(fnObj, {
+    PAGE_SEARCH: function (caller, act, data) {
+        axboot.ajax({
+            type: 'GET',
+            url: '/api/v1/reservation/' + data,
+            callback: function (res) {
+                caller.formView01.clear();
+                caller.formView01.setData(res);
+            },
+        });
+    },
     PAGE_SAVE: function (caller, act, data) {
         var item = caller.formView01.getData();
         if (item.rsvNum) {
@@ -18,7 +28,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             data: JSON.stringify(item),
             callback: function (res) {
                 axToast.push('저장 되었습니다');
-                caller.formView01.setrsvNum(res.rsvNum);
+                ACTIONS.dispatch(ACTIONS.PAGE_SEARCH, res.id);
             },
         });
     },
@@ -68,8 +78,6 @@ fnObj.pageStart = function () {
     this.pageButtonView.initView();
     this.formView01.initView();
     this.gridView01.initView();
-
-    ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);
 };
 
 fnObj.pageResize = function () {};
