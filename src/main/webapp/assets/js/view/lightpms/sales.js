@@ -101,7 +101,13 @@ fnObj.searchView = axboot.viewExtend(axboot.searchView, {
 
         $('button[name=period]').on('click', function () {
             var period = $(this).data('value');
-            fnObj.searchView.searchPeriod(period);
+
+            var date = [];
+            date = period.split('-');
+            var startDate = moment().subtract(date[0], date[1]).format('YYYY-MM-DD');
+
+            $('.js-rsvDtStart').val(startDate);
+            $('.js-rsvDtEnd').val(moment().format('YYYY-MM-DD'));
         });
     },
     getData: function () {
@@ -111,14 +117,6 @@ fnObj.searchView = axboot.viewExtend(axboot.searchView, {
             rsvDtStart: this.rsvDtStart.val(),
             rsvDtEnd: this.rsvDtEnd.val(),
         };
-    },
-    searchPeriod: function (period) {
-        var date = [];
-        date = period.split('-');
-        var startDate = moment().subtract(date[0], date[1]).format('YYYY-MM-DD');
-
-        $('.js-rsvDtStart').val(startDate);
-        $('.js-rsvDtEnd').val(moment().format('YYYY-MM-DD'));
     },
 });
 
@@ -130,10 +128,18 @@ fnObj.gridView01 = axboot.viewExtend(axboot.gridView, {
         var _this = this;
 
         this.target = axboot.gridBuilder({
-            frozenRowIndex: 0,
+            frozenRowIndex: 1,
             target: $('[data-ax5grid="grid-view-01"]'),
             columns: [
-                { key: 'rsvDt', label: '날짜', width: 160, align: 'center' },
+                {
+                    key: 'rsvDt',
+                    label: '날짜',
+                    width: 160,
+                    align: 'center',
+                    formatter: function formatter() {
+                        return this.item.rsvDt == null ? '합    계' : this.item.rsvDt;
+                    },
+                },
                 { key: 'rsvCnt', label: '투숙건수', width: 120, align: 'center' },
                 { key: 'salePrc', label: '판매금액', width: 160, align: 'center', formatter: 'money' },
                 { key: 'svcPrc', label: '서비스금액', width: 140, align: 'center', formatter: 'money' },
@@ -152,25 +158,18 @@ fnObj.gridView01 = axboot.viewExtend(axboot.gridView, {
                     this.self.select(this.dindex, { selectedClear: true });
                 },
             },
-            footSum: [
-                [
-                    { label: '합계', align: 'center' },
-                    { key: 'rsvCnt', collector: 'sum', align: 'center', formatter: 'money' },
-                    { key: 'salePrc', collector: 'sum', align: 'center', formatter: 'money' },
-                    { key: 'svcPrc', collector: 'sum', align: 'center', formatter: 'money' },
-                    {
-                        key: 'sumPrc',
-                        collector: function (n) {
-                            var value = 0;
-                            this.list.forEach(function (n) {
-                                value += n.salePrc + n.svcPrc;
-                            });
-                            return ax5.util.number(value, { money: 1 });
-                        },
-                        align: 'center',
-                    },
-                ],
-            ],
+            // footSum: [
+            //     [
+            //         { label: '합계', align: 'center' },
+            //         { key: 'rsvCnt', collector: 'sum', align: 'center', formatter: 'money' },
+            //         { key: 'salePrc', collector: 'sum', align: 'center', formatter: 'money' },
+            //         { key: 'svcPrc', collector: 'sum', align: 'center', formatter: 'money' },
+            //         {
+            //             key: 'sumPrc',
+            //             align: 'center',
+            //         },
+            //     ],
+            // ],
         });
     },
     getData: function (_type) {

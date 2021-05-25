@@ -264,6 +264,34 @@ public class ReservationService extends BaseService<Reservation, Long> {
                 .orderBy(qReservation.rsvDt.asc())
                 .fetch();
 
+        List<ReservationSalesResponseDto> sumList = sumList(requestParams);
+
+        List<ReservationSalesResponseDto> saleList = new ArrayList<>();
+        saleList.addAll(sumList);
+        saleList.addAll(list);
+
+        return saleList;
+    }
+
+    public List<ReservationSalesResponseDto> sumList(RequestParams requestParams) {
+        BooleanBuilder builder = new BooleanBuilder();
+        String rsvDtStart = requestParams.getString("rsvDtStart", "");
+        String rsvDtEnd = requestParams.getString("rsvDtEnd", "");
+
+        if (isNotEmpty(rsvDtStart) && isNotEmpty(rsvDtEnd)) {
+            builder.and(qReservation.rsvDt.between(rsvDtStart, rsvDtEnd));
+        }
+
+        List<ReservationSalesResponseDto> list = select()
+                .select(Projections.fields(
+                        ReservationSalesResponseDto.class,
+                        qReservation.salePrc.castToNum(Integer.class).sum().as("salePrc"),
+                        qReservation.svcPrc.castToNum(Integer.class).sum().as("svcPrc"),
+                        qReservation.count().as("rsvCnt")))
+                .from(qReservation)
+                .where(builder)
+                .fetch();
+
         return list;
     }
 }
