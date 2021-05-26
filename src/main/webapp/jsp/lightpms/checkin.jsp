@@ -30,7 +30,10 @@ tagdir="/WEB-INF/tags" %>
                             <input type="text" name="rsvNum" class="js-rsvNum form-control" />
                         </ax:td>
                         <ax:td label="도착일" width="30%">
-                            <input type="date" name="arrDt" class="js-arrDt form-control" style="width: 150px;">
+                            <div class="input-group" data-ax5picker="arrDt">
+                                <input type="text" name="arrDt" class="js-arrDt form-control" placeholder="yyyy-mm-dd">
+                                <span class="input-group-addon"><i class="fa fa-calendar-o"></i></span>
+                            </div>
                         </ax:td>
                     </ax:tr>
                 </ax:tbl>

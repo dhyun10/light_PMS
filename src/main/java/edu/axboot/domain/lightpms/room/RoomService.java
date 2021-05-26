@@ -2,7 +2,6 @@ package edu.axboot.domain.lightpms.room;
 
 import com.chequer.axboot.core.parameter.RequestParams;
 import com.querydsl.core.BooleanBuilder;
-import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Projections;
 import edu.axboot.domain.BaseService;
 import org.springframework.stereotype.Service;
