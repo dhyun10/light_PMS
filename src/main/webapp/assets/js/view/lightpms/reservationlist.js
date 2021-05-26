@@ -136,17 +136,17 @@ fnObj.searchView = axboot.viewExtend(axboot.searchView, {
 
         this.searchDate();
 
-        $('.js-sttus').on('change', function () {
+        $('[data-ax-path="sttusCd"]').on('change', function () {
             $('.js-sttusAll').prop('checked', false);
         });
 
         $('.js-sttusAll').on('change', function () {
-            $('.js-sttus').prop('checked', false);
+            $('[data-ax-path="sttusCd"]').prop('checked', false);
         });
     },
     defaultSearch: function () {
         $('input:text').val('');
-        $('.js-sttus').prop('checked', false);
+        $('[data-ax-path="sttusCd"]').prop('checked', false);
         $('.js-sttusAll').prop('checked', true);
         $('.js-roomTypCd').val('');
     },
