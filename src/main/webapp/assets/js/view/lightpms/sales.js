@@ -158,18 +158,6 @@ fnObj.gridView01 = axboot.viewExtend(axboot.gridView, {
                     this.self.select(this.dindex, { selectedClear: true });
                 },
             },
-            // footSum: [
-            //     [
-            //         { label: '합계', align: 'center' },
-            //         { key: 'rsvCnt', collector: 'sum', align: 'center', formatter: 'money' },
-            //         { key: 'salePrc', collector: 'sum', align: 'center', formatter: 'money' },
-            //         { key: 'svcPrc', collector: 'sum', align: 'center', formatter: 'money' },
-            //         {
-            //             key: 'sumPrc',
-            //             align: 'center',
-            //         },
-            //     ],
-            // ],
         });
     },
     getData: function (_type) {
