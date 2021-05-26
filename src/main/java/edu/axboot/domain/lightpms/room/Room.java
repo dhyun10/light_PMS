@@ -3,7 +3,9 @@ package edu.axboot.domain.lightpms.room;
 import com.chequer.axboot.core.annotations.ColumnPosition;
 import edu.axboot.domain.BaseJpaModel;
 import edu.axboot.domain.SimpleJpaModel;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
@@ -15,6 +17,7 @@ import javax.persistence.*;
 @DynamicInsert
 @DynamicUpdate
 @Entity
+@NoArgsConstructor
 @Table(name = "PMS_ROOM")
 public class Room extends BaseJpaModel<Long> {
     @Id
@@ -54,6 +57,23 @@ public class Room extends BaseJpaModel<Long> {
     @Override
     public Long getId() {
         return id;
+    }
+
+    @Builder
+    public Room(Long id, String roomNum, String roomTypCd, String dndYn, String ebYn,
+                String roomSttusCd, String clnSttusCd, String svcSttusCd,
+                boolean isCreated, boolean isModified, boolean isDeleted) {
+        this.id = id;
+        this.roomNum = roomNum;
+        this.roomTypCd = roomTypCd;
+        this.dndYn = dndYn;
+        this.ebYn = ebYn;
+        this.roomSttusCd = roomSttusCd;
+        this.clnSttusCd = clnSttusCd;
+        this.svcSttusCd = svcSttusCd;
+        this.__created__ = isCreated;
+        this.__modified__ = isModified;
+        this.__deleted__ = isDeleted;
     }
 
 }

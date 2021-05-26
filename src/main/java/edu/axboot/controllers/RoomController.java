@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -22,8 +23,10 @@ public class RoomController extends BaseController {
     private RoomService roomService;
 
     @RequestMapping(method = RequestMethod.GET, produces = APPLICATION_JSON)
-    public Responses.ListResponse list(RequestParams<Room> request) {
-        List<Room> list = roomService.roomList(request);
+    public Responses.ListResponse list(
+            @RequestParam(value = "roomTypCd", defaultValue = "") String roomTypCd
+    ) {
+        List<Room> list = roomService.roomList(roomTypCd);
         return Responses.ListResponse.of(list);
     }
 

@@ -7,6 +7,8 @@ import edu.axboot.controllers.dto.*;
 import edu.axboot.domain.BaseService;
 import edu.axboot.domain.lightpms.guest.Guest;
 import edu.axboot.domain.lightpms.guest.GuestService;
+import edu.axboot.utils.SessionUtils;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,24 +22,18 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@RequiredArgsConstructor
 @Service
 public class ReservationService extends BaseService<Reservation, Long> {
 
     private static final Logger logger = LoggerFactory.getLogger(ReservationService.class);
 
-    private ReservationRepository reservationRepository;
+    private final ReservationRepository reservationRepository;
+
+    private final ReservationMemoRepository reservationMemoRepository;
 
     @Inject
     private GuestService guestService;
-
-    @Inject
-    private ReservationMemoService memoService;
-
-    @Inject
-    public ReservationService(ReservationRepository reservationRepository) {
-        super(reservationRepository);
-        this.reservationRepository=reservationRepository;
-    }
 
     @Transactional
     public Long saveUsingQueryDsl(ReservationRequestDto requestDto) {
@@ -63,9 +59,28 @@ public class ReservationService extends BaseService<Reservation, Long> {
         Long id = this.reservationRepository.save(requestDto.toEntity()).getId();
 
         List<ReservationMemo> memo = requestDto.getMemoList();
-        memoService.saveUsingQueryDsl(memo, rsvNum);
+        this.saveMemo(memo, rsvNum);
 
         return id;
+    }
+
+    @Transactional
+    public void saveMemo(List<ReservationMemo> memoList, String rsvNum) {
+        int sno = 1;
+
+        for(ReservationMemo memo : memoList) {
+            memo.setRsvNum(rsvNum);
+            memo.setSno(sno);
+            memo.setMemoMan(SessionUtils.getCurrentLoginUserCd());
+
+            if(memo.is__deleted__()) {
+                memo.setDelYn("Y");
+                memo.setSno(0);
+            }
+
+            sno++;
+        }
+        this.reservationMemoRepository.save(memoList);
     }
 
     public Long saveGuest(ReservationRequestDto requestDto) {
@@ -96,15 +111,13 @@ public class ReservationService extends BaseService<Reservation, Long> {
                 .where(builder)
                 .fetchOne();
 
-        List<ReservationMemo> memoList = new ArrayList<ReservationMemo>();
-
-        for(ReservationMemo memo : reservation.getMemoList()) {
-            if(memo.getDelYn().equals("N")) {
-                memoList.add(memo);
-            }
-        }
-
-        reservation.setMemoList(memoList);
+//        List<ReservationMemo> memoList = new ArrayList<ReservationMemo>();
+//        for(ReservationMemo memo : reservation.getMemoList()) {
+//            if(memo.getDelYn().equals("N")) {
+//                memoList.add(memo);
+//            }
+//        }
+//        reservation.setMemoList(memoList);
 
         return new ReservationResponseDto(reservation);
     }
@@ -191,19 +204,22 @@ public class ReservationService extends BaseService<Reservation, Long> {
     }
 
     @Transactional
-    public void update(List<Long> ids, String sttusCd) {
+    public int updateSttusCd(List<Long> ids, String sttusCd) {
+        int result = 0;
         for(Long id : ids) {
             if(id != null || id != 0) {
                 update(qReservation)
                         .set(qReservation.sttusCd, sttusCd)
                         .where(qReservation.id.eq(id))
                         .execute();
+                result++;
             }
         }
+        return result;
     }
 
     @Transactional
-    public void update(Long id, ReservationUpdateRequestDto request) {
+    public Long update(Long id, ReservationUpdateRequestDto request) {
         Reservation reservation = reservationRepository.findOne(id);
 
         if(reservation == null) {
@@ -219,17 +235,15 @@ public class ReservationService extends BaseService<Reservation, Long> {
                 request.getSaleTypCd(), request.getSttusCd(), request.getSrcCd(), request.getPayCd(), request.getAdvnYn(),
                 request.getSalePrc(), request.getSvcPrc());
 
-        memoService.saveUsingQueryDsl(request.getMemoList(), reservation.getRsvNum());
+        this.saveMemo(request.getMemoList(), reservation.getRsvNum());
+
+        return reservation.getId();
     }
 
     public List<ReservationListResponseDto> rsvList(Long id) {
         BooleanBuilder builder = new BooleanBuilder();
 
-//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-//        String today = sdf.format(new Date());
-
         builder.and(qReservation.guestId.eq(id));
-//        builder.and(qReservation.depDt.loe(today));
 
         List<Reservation> list = select()
                 .from(qReservation)

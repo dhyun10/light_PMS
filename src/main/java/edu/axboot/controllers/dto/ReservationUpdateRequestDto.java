@@ -10,6 +10,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 public class ReservationUpdateRequestDto {
+    private Long id;
     private String sttusCd;
 
     private String arrDt;
@@ -44,11 +45,12 @@ public class ReservationUpdateRequestDto {
 
     @Builder
     public ReservationUpdateRequestDto(
-            String roomTypCd, String roomNum,
+            Long id, String roomTypCd, String roomNum,
             String arrDt, String arrTime, String depDt, String depTime, int nightCnt, int adultCnt, int childCnt,
             Long guestId, String guestNm, String guestNmEng, String guestTel, String email, String langCd, String birth, String gender,
             String saleTypCd, String sttusCd, String srcCd, String payCd, String advnYn, String salePrc, String svcPrc,
             List<ReservationMemo> memoList) {
+        this.id = id;
         this.sttusCd = sttusCd;
 
         this.arrDt = arrDt;

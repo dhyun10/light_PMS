@@ -114,6 +114,11 @@ public class Reservation extends BaseJpaModel<Long> {
     @Column(name = "SVC_PRC", precision = 18)
     private String svcPrc;
 
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @NotFound(action = NotFoundAction.IGNORE)
+    @JoinColumn(name = "RSV_NUM", referencedColumnName = "RSV_NUM", insertable = false, updatable = false)
+    private List<ReservationMemo> memoList;
+
     @Builder
     public Reservation(
             String rsvDt, int sno, String rsvNum, String roomTypCd, String roomNum,
@@ -153,11 +158,6 @@ public class Reservation extends BaseJpaModel<Long> {
     public void prePersist() {
         this.advnYn = this.advnYn == null ? "N" : this.advnYn;
     }
-
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @NotFound(action = NotFoundAction.IGNORE)
-    @JoinColumn(name = "RSV_NUM", referencedColumnName = "RSV_NUM", insertable = false, updatable = false)
-    private List<ReservationMemo> memoList;
 
     public void update(String roomTypCd, String roomNum,
                        String arrDt, String arrTime, String depDt, String depTime, int nightCnt, int adultCnt, int childCnt,

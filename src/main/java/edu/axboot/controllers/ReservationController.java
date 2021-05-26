@@ -42,15 +42,15 @@ public class ReservationController extends BaseController {
     }
 
     @RequestMapping(method = RequestMethod.PUT, produces = APPLICATION_JSON)
-    public ApiResponse update(
+    public ApiResponse updateSttusCd(
             @RequestParam List<Long> ids,
             @RequestParam String sttusCd) {
-        reservationService.update(ids, sttusCd);
+        reservationService.updateSttusCd(ids, sttusCd);
         return ok();
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT, produces = APPLICATION_JSON)
-    public ApiResponse updateSttusCd(
+    public ApiResponse update(
             @PathVariable Long id,
             @RequestBody ReservationUpdateRequestDto request) {
         reservationService.update(id, request);

@@ -37,7 +37,7 @@ public class EducationTeachService extends BaseService<EducationTeach, Long> {
 
     private EducationTeachRepository educationTeachRepository;
 
-    @Inject
+    // @Inject
     private EducationTeachMapper educationTeachMapper;
 
     @Inject

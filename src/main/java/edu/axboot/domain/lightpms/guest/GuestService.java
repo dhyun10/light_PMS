@@ -27,12 +27,7 @@ public class GuestService extends BaseService<Guest, Long> {
         this.guestRepository = guestRepository;
     }
 
-    public List<Guest> list(RequestParams request) {
-        String guestNm = request.getString("guestNm", "");
-        String guestTel = request.getString("guestTel", "");
-        String email = request.getString("email", "");
-        String filter = request.getString("filter", "");
-
+    public List<Guest> list(String guestNm, String guestTel, String email, String filter) {
         BooleanBuilder builder = new BooleanBuilder();
 
         if(isNotEmpty(guestNm)) {

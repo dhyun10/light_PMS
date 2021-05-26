@@ -81,7 +81,12 @@ public class ReservationResponseDto {
         this.salePrc = entity.getSalePrc();
         this.svcPrc = entity.getSvcPrc();
 
-        this.memoList.addAll(entity.getMemoList());
+        for (ReservationMemo memo : entity.getMemoList()) {
+            if(memo.getDelYn().equals("N")) {
+                this.memoList.add(memo);
+            }
+        }
+//        this.memoList = entity.getMemoList();
     }
 
 }

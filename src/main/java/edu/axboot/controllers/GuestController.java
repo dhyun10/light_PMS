@@ -27,8 +27,12 @@ public class GuestController extends BaseController {
     private GuestService guestService;
 
     @RequestMapping(method = RequestMethod.GET, produces = APPLICATION_JSON)
-    public Responses.ListResponse list(RequestParams<Guest> request) {
-        List<Guest> list = guestService.list(request);
+    public Responses.ListResponse list(
+            @RequestParam(value = "guestNm", defaultValue = "") String guestNm,
+            @RequestParam(value = "guestTel", defaultValue = "") String guestTel,
+            @RequestParam(value = "email", defaultValue = "") String email,
+            @RequestParam(value = "filter", defaultValue = "") String filter) {
+        List<Guest> list = guestService.list(guestNm, guestTel, email, filter);
         return Responses.ListResponse.of(list);
     }
 
@@ -52,8 +56,13 @@ public class GuestController extends BaseController {
 
     @ApiOperation(value = "엑셀다운로드", notes = "/resources/excel/pms_guest.xlsx")
     @RequestMapping(value = "/excelDownload", method = RequestMethod.POST, produces = APPLICATION_JSON)
-    public void excelDownload(RequestParams requestParams, HttpServletRequest request, HttpServletResponse response) throws IOException {
-        List<Guest> list = guestService.list(requestParams);
+    public void excelDownload(
+            @RequestParam(value = "guestNm", defaultValue = "") String guestNm,
+            @RequestParam(value = "guestTel", defaultValue = "") String guestTel,
+            @RequestParam(value = "email", defaultValue = "") String email,
+            @RequestParam(value = "filter", defaultValue = "") String filter,
+            HttpServletRequest request, HttpServletResponse response) throws IOException {
+        List<Guest> list = guestService.list(guestNm, guestTel, email, filter);
         ExcelUtils.renderExcel("excel/pms_guest.xlsx", list, "guest_"+ DateUtils.getYyyyMMddHHmmssWithDate(), request, response);
     }
 
