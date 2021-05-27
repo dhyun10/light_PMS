@@ -240,6 +240,53 @@ fnObj.formView01 = axboot.viewExtend(axboot.formView, {
             },
         });
 
+        function calender(target) {
+            var picker = new ax5.ui.picker();
+            picker.bind({
+                target: target,
+                direction: 'top',
+                content: {
+                    width: 270,
+                    margin: 10,
+                    type: 'date',
+                    config: {
+                        control: {
+                            left: '<i class="fa fa-chevron-left"></i>',
+                            yearTmpl: '%s',
+                            monthTmpl: '%s',
+                            right: '<i class="fa fa-chevron-right"></i>',
+                        },
+                        lang: {
+                            yearTmpl: '%s년',
+                            months: ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'],
+                            dayTmpl: '%s',
+                        },
+                        marker: (function () {
+                            var marker = {};
+                            marker[ax5.util.date(new Date(), { return: 'yyyy-MM-dd', add: { d: 0 } })] = true;
+
+                            return marker;
+                        })(),
+                    },
+                    formatter: {
+                        pattern: 'date',
+                    },
+                },
+                onStateChanged: function () {
+                    if (this.state == 'open') {
+                        var selectedValue = this.self.getContentValue(this.item['$target']);
+                        if (!selectedValue) {
+                            this.item.pickerCalendar[0].ax5uiInstance.setSelection([ax5.util.date(new Date(), { add: { d: 1 } })]);
+                        }
+                    }
+                },
+            });
+        }
+
+        calender($('[data-ax5picker="arrDt"]'));
+        calender($('[data-ax5picker="depDt"]'));
+        calender($('[data-ax5picker="birth"]'));
+
         $('.js-arrDt').on('change', function () {
             var arrDate = moment($('.js-arrDt').val());
             var nightCnt = $('.js-nightCnt').val();

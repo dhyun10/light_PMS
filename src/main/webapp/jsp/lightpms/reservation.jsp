@@ -35,7 +35,10 @@ tagdir="/WEB-INF/tags" %>
                             <div data-ax-td>
                                 <div data-ax-td-label><span style="color: red;">* </span>도착일</div>
                                 <div data-ax-td-wrap>
-                                <input type="date" data-ax-path="arrDt" name="arrDt" class="js-arrDt form-control" data-ax-validate="required">               
+                                <div class="input-group" data-ax5picker="arrDt">
+                                    <input type="text" data-ax-path="arrDt" name="arrDt" class="js-arrDt form-control" placeholder="yyyy-mm-dd">
+                                    <span class="input-group-addon"><i class="fa fa-calendar-o"></i></span>
+                                </div>          
                                 </div>
                             </div>  
                             <div data-ax-td>
@@ -47,7 +50,10 @@ tagdir="/WEB-INF/tags" %>
                             <div data-ax-td>
                                 <div data-ax-td-label><span style="color: red;">* </span>출발일</div>
                                 <div data-ax-td-wrap>
-                                <input type="date" data-ax-path="depDt" name="depDt" class="js-depDt form-control" data-ax-validate="required">               
+                                    <div class="input-group" data-ax5picker="depDt">
+                                        <input type="text" data-ax-path="depDt" name="depDt" class="js-depDt form-control" placeholder="yyyy-mm-dd">
+                                        <span class="input-group-addon"><i class="fa fa-calendar-o"></i></span>
+                                    </div>     
                                 </div>
                             </div>  
                         </div>
@@ -117,8 +123,10 @@ tagdir="/WEB-INF/tags" %>
                                         <div data-ax-td style="width:50%">
                                             <div data-ax-td-label style="width:120px; background-color: #fff; background-image: none;">생년월일</div>
                                             <div data-ax-td-wrap >
-                                                <input type="date" data-ax-path="birth" name="birth" class="form-control" style="width: 150px;"  />
-                                                
+                                                <div class="input-group" data-ax5picker="birth">
+                                                    <input type="text" data-ax-path="birth" name="birth" class="js-birth form-control" placeholder="yyyy-mm-dd">
+                                                    <span class="input-group-addon"><i class="fa fa-calendar-o"></i></span>
+                                                </div>
                                             </div>
                                             <span>
                                                 <input type="radio" value="F" name="gender" data-ax-path="gender" > 여

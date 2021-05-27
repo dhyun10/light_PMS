@@ -103,7 +103,7 @@ tagdir="/WEB-INF/tags" %>
                         </ax:tr>
                         <ax:tr>
                             <ax:td label="상태" width="100%">
-                                <label><input type="checkbox" name="sttusCd" value="" class="js-sttusAll" /> 전체</label>
+                                <label class="checkbox-inline"><input type="checkbox" value="" class="js-sttusAll" /> 전체</label>
                                 <ax:common-code
                                     groupCd="PMS_STAY_STATUS"
                                     name="sttusCd"

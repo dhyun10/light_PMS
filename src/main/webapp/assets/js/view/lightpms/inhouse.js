@@ -106,7 +106,36 @@ fnObj.searchView = axboot.viewExtend(axboot.searchView, {
         this.depDtStart = $('.js-depDtStart');
         this.depDtEnd = $('.js-depDtEnd');
 
-        this.searchDate();
+        function calender(target) {
+            var picker = new ax5.ui.picker();
+            picker.bind({
+                target: target,
+                direction: 'top',
+                content: {
+                    width: 270,
+                    margin: 10,
+                    type: 'date',
+                    config: {
+                        control: {
+                            left: '<i class="fa fa-chevron-left"></i>',
+                            yearTmpl: '%s',
+                            monthTmpl: '%s',
+                            right: '<i class="fa fa-chevron-right"></i>',
+                        },
+                        lang: {
+                            yearTmpl: '%s년',
+                            months: ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'],
+                            dayTmpl: '%s',
+                        },
+                    },
+                },
+                onStateChanged: function () {},
+            });
+        }
+
+        calender($('[data-ax5picker="rsvDt"]'));
+        calender($('[data-ax5picker="arrDt"]'));
+        calender($('[data-ax5picker="depDt"]'));
     },
     defaultSearch: function () {
         $('input:text').val('');
@@ -126,81 +155,6 @@ fnObj.searchView = axboot.viewExtend(axboot.searchView, {
             depDtStart: this.depDtStart.val(),
             depDtEnd: this.depDtEnd.val(),
         };
-    },
-    searchDate: function () {
-        var picker = new ax5.ui.picker();
-
-        picker.bind({
-            target: $('[data-ax5picker="rsvDt"]'),
-            direction: 'top',
-            content: {
-                width: 270,
-                margin: 10,
-                type: 'date',
-                config: {
-                    control: {
-                        left: '<i class="fa fa-chevron-left"></i>',
-                        yearTmpl: '%s',
-                        monthTmpl: '%s',
-                        right: '<i class="fa fa-chevron-right"></i>',
-                    },
-                    lang: {
-                        yearTmpl: '%s년',
-                        months: ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'],
-                        dayTmpl: '%s',
-                    },
-                },
-            },
-            onStateChanged: function () {},
-        });
-
-        picker.bind({
-            target: $('[data-ax5picker="arrDt"]'),
-            direction: 'top',
-            content: {
-                width: 270,
-                margin: 10,
-                type: 'date',
-                config: {
-                    control: {
-                        left: '<i class="fa fa-chevron-left"></i>',
-                        yearTmpl: '%s',
-                        monthTmpl: '%s',
-                        right: '<i class="fa fa-chevron-right"></i>',
-                    },
-                    lang: {
-                        yearTmpl: '%s년',
-                        months: ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'],
-                        dayTmpl: '%s',
-                    },
-                },
-            },
-            onStateChanged: function () {},
-        });
-
-        picker.bind({
-            target: $('[data-ax5picker="depDt"]'),
-            direction: 'top',
-            content: {
-                width: 270,
-                margin: 10,
-                type: 'date',
-                config: {
-                    control: {
-                        left: '<i class="fa fa-chevron-left"></i>',
-                        yearTmpl: '%s',
-                        monthTmpl: '%s',
-                        right: '<i class="fa fa-chevron-right"></i>',
-                    },
-                    lang: {
-                        yearTmpl: '%s년',
-                        months: ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'],
-                        dayTmpl: '%s',
-                    },
-                },
-            },
-            onStateChanged: function () {},
-        });
     },
 });
 
