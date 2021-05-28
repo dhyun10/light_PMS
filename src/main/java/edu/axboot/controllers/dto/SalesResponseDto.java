@@ -30,7 +30,7 @@ public class SalesResponseDto {
         this.rsvCnt = entity.getId();
         this.salePrc = entity.getSalePrc();
         this.svcPrc = entity.getSvcPrc();
-        sumPrc = getSumPrc();
+        this.sumPrc = getSumPrc();
     }
 
     public void add(SalesResponseDto dto) {

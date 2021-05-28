@@ -91,7 +91,7 @@ public class ReservationController extends BaseController {
     @RequestMapping(value = "/sales", method = RequestMethod.GET, produces = APPLICATION_JSON)
     public List<SalesResponseDto> salesList(RequestParams requestParams) {
         List<SalesResponseDto> list = reservationService.salesList(requestParams);
-        sumList(list);
+        // sumList(list);
 
         return list;
     }
