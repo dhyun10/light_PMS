@@ -12,6 +12,7 @@ import javax.persistence.*;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,7 +45,7 @@ public class Reservation extends BaseJpaModel<Long> {
     @Column(name = "GUEST_NM", precision = 100)
     private String guestNm;
 
-    @Column(name = "GEUST_NM_ENG", precision = 200)
+    @Column(name = "GUEST_NM_ENG", precision = 200)
     private String guestNmEng;
 
     @Column(name = "GUEST_TEL", precision = 18)
@@ -109,10 +110,10 @@ public class Reservation extends BaseJpaModel<Long> {
     private String advnYn;
 
     @Column(name = "SALE_PRC", precision = 18)
-    private String salePrc;
+    private BigDecimal salePrc;
 
     @Column(name = "SVC_PRC", precision = 18)
-    private String svcPrc;
+    private BigDecimal svcPrc;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @NotFound(action = NotFoundAction.IGNORE)
@@ -124,7 +125,7 @@ public class Reservation extends BaseJpaModel<Long> {
             String rsvDt, int sno, String rsvNum, String roomTypCd, String roomNum,
             String arrDt, String arrTime, String depDt, String depTime, int nightCnt, int adultCnt, int childCnt,
             Long guestId, String guestNm, String guestNmEng, String guestTel, String email, String langCd, String birth, String gender,
-            String saleTypCd, String sttusCd, String srcCd, String payCd, String advnYn, String salePrc, String svcPrc) {
+            String saleTypCd, String sttusCd, String srcCd, String payCd, String advnYn, BigDecimal salePrc, BigDecimal svcPrc) {
         this.rsvDt = rsvDt;
         this.sno = sno;
         this.rsvNum = rsvNum;
@@ -162,7 +163,7 @@ public class Reservation extends BaseJpaModel<Long> {
     public void update(String roomTypCd, String roomNum,
                        String arrDt, String arrTime, String depDt, String depTime, int nightCnt, int adultCnt, int childCnt,
                        Long guestId, String guestNm, String guestNmEng, String guestTel, String email, String langCd, String birth, String gender,
-                       String saleTypCd, String sttusCd, String srcCd, String payCd, String advnYn, String salePrc, String svcPrc) {
+                       String saleTypCd, String sttusCd, String srcCd, String payCd, String advnYn, BigDecimal salePrc, BigDecimal svcPrc) {
         this.roomTypCd = roomTypCd;
         this.roomNum = roomNum;
         this.arrDt = arrDt;

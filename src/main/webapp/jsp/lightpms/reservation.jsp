@@ -24,7 +24,7 @@ tagdir="/WEB-INF/tags" %>
         </div>
 
         <ax:split-layout name="ax1" orientation="horizontal">
-            <ax:split-panel height="*">
+            <ax:split-panel height="*" scroll="scroll">
                 <form name="formView01" class="reservationForm">
                     <div role="page-header">
                         <div style="font-weight: bold;">예약번호 : <input style="border: 0; background: none;" data-ax-path="rsvNum" name="rsvNum" class="js-rsvNum" readonly="readonly"></div>

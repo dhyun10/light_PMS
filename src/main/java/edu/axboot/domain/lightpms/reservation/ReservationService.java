@@ -16,8 +16,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -256,7 +256,7 @@ public class ReservationService extends BaseService<Reservation, Long> {
                 .collect(Collectors.toList());
     }
 
-    public List<ReservationSalesResponseDto> salesList(RequestParams requestParams) {
+    public List<SalesResponseDto> salesList(RequestParams requestParams) {
         BooleanBuilder builder = new BooleanBuilder();
         String rsvDtStart = requestParams.getString("rsvDtStart", "");
         String rsvDtEnd = requestParams.getString("rsvDtEnd", "");
@@ -265,47 +265,21 @@ public class ReservationService extends BaseService<Reservation, Long> {
             builder.and(qReservation.rsvDt.between(rsvDtStart, rsvDtEnd));
         }
 
-        List<ReservationSalesResponseDto> list = select()
+        List<SalesResponseDto> list = select()
                 .select(Projections.fields(
-                        ReservationSalesResponseDto.class,
+                        SalesResponseDto.class,
                         qReservation.rsvDt,
-                        qReservation.salePrc.castToNum(Integer.class).sum().as("salePrc"),
-                        qReservation.svcPrc.castToNum(Integer.class).sum().as("svcPrc"),
-                        qReservation.count().as("rsvCnt")))
+                        qReservation.salePrc.sum().as("salePrc"),
+                        qReservation.svcPrc.sum().as("svcPrc"),
+                        qReservation.rsvNum.count().as("rsvCnt")
+                        ))
                 .from(qReservation)
+                .where(builder)
                 .groupBy(qReservation.rsvDt)
-                .where(builder)
                 .orderBy(qReservation.rsvDt.asc())
-                .fetch();
-
-        List<ReservationSalesResponseDto> sumList = sumList(requestParams);
-
-        List<ReservationSalesResponseDto> saleList = new ArrayList<>();
-        saleList.addAll(sumList);
-        saleList.addAll(list);
-
-        return saleList;
-    }
-
-    public List<ReservationSalesResponseDto> sumList(RequestParams requestParams) {
-        BooleanBuilder builder = new BooleanBuilder();
-        String rsvDtStart = requestParams.getString("rsvDtStart", "");
-        String rsvDtEnd = requestParams.getString("rsvDtEnd", "");
-
-        if (isNotEmpty(rsvDtStart) && isNotEmpty(rsvDtEnd)) {
-            builder.and(qReservation.rsvDt.between(rsvDtStart, rsvDtEnd));
-        }
-
-        List<ReservationSalesResponseDto> list = select()
-                .select(Projections.fields(
-                        ReservationSalesResponseDto.class,
-                        qReservation.salePrc.castToNum(Integer.class).sum().as("salePrc"),
-                        qReservation.svcPrc.castToNum(Integer.class).sum().as("svcPrc"),
-                        qReservation.count().as("rsvCnt")))
-                .from(qReservation)
-                .where(builder)
                 .fetch();
 
         return list;
     }
+
 }

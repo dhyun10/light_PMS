@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Getter
@@ -38,8 +39,8 @@ public class ReservationUpdateRequestDto {
     private String srcCd;
     private String payCd;
     private String advnYn;
-    private String salePrc;
-    private String svcPrc;
+    private BigDecimal salePrc;
+    private BigDecimal svcPrc;
 
     private List<ReservationMemo> memoList;
 
@@ -48,7 +49,7 @@ public class ReservationUpdateRequestDto {
             Long id, String roomTypCd, String roomNum,
             String arrDt, String arrTime, String depDt, String depTime, int nightCnt, int adultCnt, int childCnt,
             Long guestId, String guestNm, String guestNmEng, String guestTel, String email, String langCd, String birth, String gender,
-            String saleTypCd, String sttusCd, String srcCd, String payCd, String advnYn, String salePrc, String svcPrc,
+            String saleTypCd, String sttusCd, String srcCd, String payCd, String advnYn, BigDecimal salePrc, BigDecimal svcPrc,
             List<ReservationMemo> memoList) {
         this.id = id;
         this.sttusCd = sttusCd;

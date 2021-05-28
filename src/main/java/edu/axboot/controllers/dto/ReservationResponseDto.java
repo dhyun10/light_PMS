@@ -5,6 +5,7 @@ import edu.axboot.domain.lightpms.reservation.ReservationMemo;
 import edu.axboot.domain.lightpms.room.Room;
 import lombok.Getter;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,8 +43,8 @@ public class ReservationResponseDto {
 
     private String payCd;
     private String advnYn;
-    private String salePrc;
-    private String svcPrc;
+    private BigDecimal salePrc;
+    private BigDecimal svcPrc;
 
     private List<ReservationMemo> memoList = new ArrayList<ReservationMemo>();
 

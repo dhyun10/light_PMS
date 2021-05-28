@@ -15,6 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,7 +54,7 @@ public class ReservationServiceTest {
                 .saleTypCd("01")
                 .srcCd("01")
                 .payCd("01")
-                .salePrc("100000")
+                .salePrc(new BigDecimal("100000"))
                 .memoList(memoList)
                 .build();
 
@@ -73,7 +74,7 @@ public class ReservationServiceTest {
     @Test
     public void test3_예약_목록() {
         RequestParams params = new RequestParams();
-        params.put("roomTypCd", "SB");
+        params.put("roomTypCd", "");
 
         List<ReservationListResponseDto> list = reservationService.list(params);
 
@@ -116,7 +117,7 @@ public class ReservationServiceTest {
                 .saleTypCd("01")
                 .srcCd("01")
                 .payCd("CASH")
-                .salePrc("100000")
+                .salePrc(BigDecimal.valueOf(100000))
                 .advnYn("N")
                 .sttusCd("CHK_02")
                 .memoList(memoList)
@@ -130,10 +131,10 @@ public class ReservationServiceTest {
     @Test
     public void test6_매출현황() {
         RequestParams params = new RequestParams();
-        params.put("rsvDtStart", "2021-05-10");
-        params.put("rsvDtEnd", "2021-05-26");
+        params.put("rsvDtStart", "");
+        params.put("rsvDtEnd", "");
 
-        List<ReservationSalesResponseDto> list = reservationService.salesList(params);
+        List<SalesResponseDto> list = reservationService.salesList(params);
 
         assertTrue(list.size() > 0);
     }

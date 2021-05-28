@@ -89,16 +89,29 @@ public class ReservationController extends BaseController {
     }
 
     @RequestMapping(value = "/sales", method = RequestMethod.GET, produces = APPLICATION_JSON)
-    public List<ReservationSalesResponseDto> salesList(RequestParams requestParams) {
-        List<ReservationSalesResponseDto> list = reservationService.salesList(requestParams);
+    public List<SalesResponseDto> salesList(RequestParams requestParams) {
+        List<SalesResponseDto> list = reservationService.salesList(requestParams);
+        sumList(list);
+
         return list;
     }
 
     @ApiOperation(value = "엑셀다운로드", notes = "/resource/excel/pms_sales.xlsx")
     @RequestMapping(value = "/sales/excelDownload", method = RequestMethod.POST, produces = APPLICATION_JSON)
     public void salesExcelDownload(RequestParams requestParams, HttpServletRequest request, HttpServletResponse response) throws IOException {
-        List<ReservationSalesResponseDto> list = reservationService.salesList(requestParams);
+        List<SalesResponseDto> list = reservationService.salesList(requestParams);
         ExcelUtils.renderExcel("excel/pms_sales.xlsx", list, "sales_"+ DateUtils.getYyyyMMddHHmmssWithDate(), request, response);
     }
+
+    public void sumList(List<SalesResponseDto> list) {
+        if (list == null || list.size() == 0) return;
+        SalesResponseDto total = new SalesResponseDto();
+        total.setRsvDt("합 계");
+        for (SalesResponseDto dto : list) {
+            total.add(dto);
+        }
+        list.add(0, total);
+    }
+
 
 }

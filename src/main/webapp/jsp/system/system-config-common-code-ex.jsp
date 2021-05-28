@@ -13,15 +13,15 @@ tagdir="/WEB-INF/tags" %>
         <ax:page-buttons></ax:page-buttons>
 
         <ax:split-layout name="ax1" orientation="vertical">
-            <ax:split-panel width="400">
+            <ax:split-panel width="300">
                 <!-- 목록 -->
                 <div class="ax-button-group" data-fit-height-aside="tree-view-01">
                     <div class="left">
                         <h2><i class="cqc-list"></i> 코드</h2>
                     </div>
                     <div class="right">
-                        <button type="button" class="btn btn-default" data-grid-view-01-btn="add"><i class="cqc-circle-with-plus"></i> 추가</button>
-                        <button type="button" class="btn btn-default" data-grid-view-01-btn="delete">
+                        <button type="button" class="btn btn-default" data-tree-view-01-btn="add"><i class="cqc-circle-with-plus"></i> 추가</button>
+                        <button type="button" class="btn btn-default" data-tree-view-01-btn="delete">
                             <i class="cqc-circle-with-plus"></i> 삭제
                         </button>
                     </div>
@@ -44,31 +44,21 @@ tagdir="/WEB-INF/tags" %>
                     <ax:form name="formView01">
                         <ax:tbl clazz="ax-form-tbl" minWidth="500px">
                             <ax:tr labelWidth="150px">
-                                <ax:td label="분류코드" width="100%">
+                                <ax:td label="분류코드" width="50%">
                                     <input type="text" data-ax-path="progCd" class="form-control" value="" readonly="readonly" />
                                 </ax:td>
-                            </ax:tr>
-                            <ax:tr labelWidth="150px">
-                                <ax:td label="사용여부" width="100%">
-                                    <div class="form-inline">
-                                        <div class="form-group">
-                                            <label>한국어</label>
-                                            <ax:input dataPath="multiLanguageJson.ko" />
-                                        </div>
-                                        <div class="form-group">
-                                            <label>English</label>
-                                            <ax:input dataPath="multiLanguageJson.en" />
-                                        </div>
-                                    </div>
+                                <ax:td label="분류명" width="50%">
+                                    <input type="text" data-ax-path="progCd" class="form-control" value="" />
                                 </ax:td>
                             </ax:tr>
                             <ax:tr labelWidth="150px">
-                                <ax:td label="ax.admin.menu.program.name" width="100%">
-                                    <input type="hidden" data-ax-path="menuId" class="form-control" value="" />
-                                    <input type="hidden" data-ax-path="progNm" class="form-control" value="" />
-                                    <div class="form-group">
-                                        <div data-ax5combobox="progCd" data-ax5combobox-config='{size: "", editable: false, multiple: false}'></div>
-                                    </div>
+                                <ax:td label="사용여부" width="50%">
+                                    <ax:common-code groupCd="USE_YN" dataPath="userYn" />
+                                </ax:td>
+                            </ax:tr>
+                            <ax:tr labelWidth="150px">
+                                <ax:td label="코드설명" width="80%">
+                                    <textarea class="form-control"></textarea>
                                 </ax:td>
                             </ax:tr>
                         </ax:tbl>
@@ -78,9 +68,15 @@ tagdir="/WEB-INF/tags" %>
                     <!-- 목록 -->
                     <div class="ax-button-group">
                         <div class="left">
-                            <h2><i class="cqc-list"></i> <ax:lang id="ax.admin.menu.auth.group.setting" /></h2>
+                            <h2><i class="cqc-list"></i> 코드 목록</h2>
                         </div>
-                        <div class="right"></div>
+                        <div class="right">
+                            <button type="button" class="btn btn-default" data-grid-view-01-btn="add"><i class="fas fa-plus-circle"></i> 추가</button>
+                            <button type="button" class="btn btn-default" data-grid-view-01-btn="delete">
+                                <i class="fas fa-minus-circle"></i> 삭제
+                            </button>
+                            <button type="button" class="btn btn-default" data-grid-view-01-btn="save"><i class="fas fa-save"></i> 저장</button>
+                        </div>
                     </div>
                 </div>
 

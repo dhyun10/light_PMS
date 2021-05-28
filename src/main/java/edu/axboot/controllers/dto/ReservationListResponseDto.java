@@ -5,6 +5,8 @@ import edu.axboot.domain.lightpms.reservation.Reservation;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+
 @Getter
 @NoArgsConstructor
 public class ReservationListResponseDto {
@@ -28,7 +30,7 @@ public class ReservationListResponseDto {
     private String sttusCd;
     private String srcCd;
 
-    private String salePrc;
+    private BigDecimal salePrc;
 
     public ReservationListResponseDto (Reservation entity) {
         this.id = entity.getId();
