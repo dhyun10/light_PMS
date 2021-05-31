@@ -32,9 +32,10 @@ public class CommonGroupServiceTest {
     public void test1_공통코드그룹_추가() {
         CommonGroup commonGroup = CommonGroup.builder()
                 .groupCd("SYSTEM")
-                .groupNm("시스템")
-                .level(0)
-                .sort(1)
+                .groupNm("공통2")
+                .parentId(2L)
+                .level(1)
+                .sort(2)
                 .rootCd("SYSTEM")
                 .useYn("Y")
                 .build();

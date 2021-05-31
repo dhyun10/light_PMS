@@ -90,6 +90,10 @@ public class CommonGroup extends BaseJpaModel<Long> {
         return groupId;
     }
 
+    public void addChildren(CommonGroup commonGroup) {
+        children.add(commonGroup);
+    }
+
     @Builder
     public CommonGroup(Long groupId, String groupCd, String groupNm, Long parentId,
                        int level, int sort, String rootCd, String rmk, String useYn) {
