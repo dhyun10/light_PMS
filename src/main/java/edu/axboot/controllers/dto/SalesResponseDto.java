@@ -11,11 +11,11 @@ import java.math.BigDecimal;
 public class SalesResponseDto {
     private String rsvDt;
     private Long rsvCnt = 0L;
+    private BigDecimal sumPrc =  BigDecimal.ZERO;
     private BigDecimal salePrc = BigDecimal.ZERO;
     private BigDecimal svcPrc = BigDecimal.ZERO;
-    private BigDecimal sumPrc = BigDecimal.ZERO;
 
-    private BigDecimal getSumPrc() {
+    public BigDecimal getSumPrc() {
         if (salePrc == null) this.salePrc = BigDecimal.ZERO;
         if (svcPrc == null) this.svcPrc = BigDecimal.ZERO;
         return this.salePrc.add(this.svcPrc);
@@ -25,19 +25,19 @@ public class SalesResponseDto {
         this.rsvDt = rsvDt;
     }
 
-    public SalesResponseDto(Reservation entity) {
-        this.rsvDt = entity.getRsvDt();
-        this.rsvCnt = entity.getId();
-        this.salePrc = entity.getSalePrc();
-        this.svcPrc = entity.getSvcPrc();
+    public SalesResponseDto(String rsvDt, Long rsvCnt, BigDecimal salePrc, BigDecimal svcPrc, BigDecimal sumPrc) {
+        this.rsvDt = rsvDt;
+        this.rsvCnt = rsvCnt;
+        this.salePrc = salePrc;
+        this.svcPrc = svcPrc;
         this.sumPrc = getSumPrc();
     }
 
     public void add(SalesResponseDto dto) {
         if (dto == null) return;
         this.rsvCnt += dto.getRsvCnt();
-        if (dto.getSalePrc() != null) this.salePrc.add(dto.getSalePrc());
-        if (dto.getSvcPrc() != null) this.svcPrc.add(dto.getSvcPrc());
+        if (dto.getSalePrc() != null) this.salePrc = this.salePrc.add(dto.getSalePrc());
+        if (dto.getSvcPrc() != null) this.svcPrc = this.svcPrc.add(dto.getSvcPrc());
     }
 
 }

@@ -136,6 +136,9 @@ fnObj.gridView01 = axboot.viewExtend(axboot.gridView, {
                     label: '날짜',
                     width: 160,
                     align: 'center',
+                    // styleClass: function () {
+                    //     return this.item.rsvDt == '합 계' ? 'salesAll' : '';
+                    // },
                 },
                 { key: 'rsvCnt', label: '투숙건수', width: 120, align: 'center' },
                 { key: 'salePrc', label: '판매금액', width: 160, align: 'center', formatter: 'money' },
@@ -145,6 +148,7 @@ fnObj.gridView01 = axboot.viewExtend(axboot.gridView, {
                     label: '합계',
                     width: 180,
                     align: 'center',
+                    formatter: 'money',
                 },
             ],
             body: {

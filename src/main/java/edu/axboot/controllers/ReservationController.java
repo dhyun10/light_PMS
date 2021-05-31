@@ -91,7 +91,7 @@ public class ReservationController extends BaseController {
     @RequestMapping(value = "/sales", method = RequestMethod.GET, produces = APPLICATION_JSON)
     public List<SalesResponseDto> salesList(RequestParams requestParams) {
         List<SalesResponseDto> list = reservationService.salesList(requestParams);
-        // sumList(list);
+        sumList(list);
 
         return list;
     }
@@ -100,6 +100,7 @@ public class ReservationController extends BaseController {
     @RequestMapping(value = "/sales/excelDownload", method = RequestMethod.POST, produces = APPLICATION_JSON)
     public void salesExcelDownload(RequestParams requestParams, HttpServletRequest request, HttpServletResponse response) throws IOException {
         List<SalesResponseDto> list = reservationService.salesList(requestParams);
+        sumList(list);
         ExcelUtils.renderExcel("excel/pms_sales.xlsx", list, "sales_"+ DateUtils.getYyyyMMddHHmmssWithDate(), request, response);
     }
 
@@ -107,6 +108,7 @@ public class ReservationController extends BaseController {
         if (list == null || list.size() == 0) return;
         SalesResponseDto total = new SalesResponseDto();
         total.setRsvDt("합 계");
+
         for (SalesResponseDto dto : list) {
             total.add(dto);
         }

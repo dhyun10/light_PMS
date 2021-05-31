@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
-import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -279,7 +278,7 @@ public class ReservationService extends BaseService<Reservation, Long> {
                 .orderBy(qReservation.rsvDt.asc())
                 .fetch();
 
-        return list;
+        return list.stream().collect(Collectors.toList());
     }
 
 }
